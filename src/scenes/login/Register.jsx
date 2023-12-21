@@ -13,7 +13,6 @@ const RegisterForm = () =>{
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    let status = 100;
     const handleUsername = (event) => {
         setUsername(event.target.value);
     }
