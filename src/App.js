@@ -2,6 +2,7 @@ import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "./scenes/global/Topbar"
 import LoginForm from "./scenes/login/Login"
+import RegisterForm from "./scenes/login/Register";
 import {Routes, Route} from "react-router-dom"
 function App() {
     const [theme, colorMode] = useMode();
@@ -14,6 +15,7 @@ function App() {
                         <Topbar />
                         <Routes>
                             <Route path = "/login" element={<LoginForm />} />
+                            <Route path = "/register" element = {<RegisterForm /> } />
                         </Routes>
                     </main>
                 </div>;
