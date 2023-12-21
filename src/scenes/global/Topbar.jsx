@@ -5,10 +5,23 @@ import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import SearchIcon from "@mui/icons-material/Search"
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+import {useLocation} from "react-router-dom"
+import {useNavigate } from "react-router-dom";
 const Topbar = () =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const handleLog = () =>{
+        if(location.pathname === "/" || location.pathname === "/login"){
+            navigate("/login")
+        }else{
+            navigate("/")
+        }
+    }
     return (
         <Box display = "flex" justifyContent = "space-between" p = {2}>
             <Box 
@@ -30,7 +43,13 @@ const Topbar = () =>{
                 <LightModeOutlinedIcon />
                 )}
                 </IconButton>
-
+                <IconButton onClick= {handleLog}>
+                    {location.pathname === "/" ? (
+                        <LoginIcon />
+                    ) : (
+                        <LogoutIcon />
+                    )}
+                </IconButton>
             </Box>
         </Box>
     );
