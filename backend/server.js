@@ -1,5 +1,6 @@
 require('dotenv').config();
-
+var jwt = require("jsonwebtoken"); 
+// const User = require("./models/user")
 const express = require("express");
 const cors = require('cors');
 const mongoose = require("mongoose");
@@ -8,15 +9,15 @@ const bodyParser = require('body-parser');
 app.use(cors());
 const db = process.env.DBURL;
 const bcrypt = require("bcryptjs");
-const CryptoJS = require('cryptojs');
 mongoose.connect(db, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const Schema = mongoose.Schema;
 
+
+const Schema = mongoose.Schema;
 const userSchema = new Schema({
     email: {
         type:String,
@@ -34,8 +35,8 @@ const userSchema = new Schema({
         default: "password"
     }
 })
-
 const User =  mongoose.model('user', userSchema);
+
 
 async function registerUser(email, username, password){
     // check if email is already in use
@@ -66,6 +67,38 @@ async function registerUser(email, username, password){
 }
 
 
+
+async function verifyToken(req, res) {
+    const token = req.body;
+    if(!token){
+        res.status(401).send({message:"Error No Token Provided"})
+    }
+    jwt.verify(token,
+        process.env.key,
+        (err, decoded) => {
+          if (err) {
+            return res.status(401).send({
+              message: "Unauthorized!",
+            });
+          }
+          return decoded.id;
+        });
+}
+
+function tokenify(userID){
+    const token = jwt.sign({ id: userID },
+        process.env.key,
+        {
+          algorithm: 'HS256',
+          allowInsecureKeySizes: true,
+          expiresIn: 7200, // 24 hours
+        });
+    return token;
+}
+
+
+
+
 async function validateUser( username, password){
     const user = await User.findOne({username: username});
     if(!user){
@@ -76,19 +109,36 @@ async function validateUser( username, password){
         return {status:200, user:user};
     }
     else{
-        return {status:600, user:null};
+        return {status:404, user:null};
     }
 
 }
 
-
-
 app.post('/api/validate', async (req, res)=>{
+    const id = verifyToken(req,res);
+    if(!id){
+        res.status(200).send({message: "Verified User"})
+    }
+    else{
+        res.status(400).send({message: "Could not Verify"})
+    }
+})
+
+
+app.post('/api/login', async (req, res)=>{
     const {username, password} = req.body;
 
     try{
         const {status, user} = await validateUser(username, password);
-        res.status(status).json(user);
+        if(!user){
+            const token = tokenify(user.id);
+            res.status(status).send({
+                token: token
+            })
+        }
+        else{
+            res.status(status);
+        }
     } catch (error){
         res.status(500);
     }

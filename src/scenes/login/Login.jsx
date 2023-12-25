@@ -5,7 +5,10 @@ import InputBase from "@mui/material/InputBase";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
+let isAuthenticated = false;
+let setAuth = (state) =>{
+    isAuthenticated=state;
+};
 const LoginForm = () =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -13,6 +16,7 @@ const LoginForm = () =>{
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    [isAuthenticated, setAuth] = useState(false);
     const handleUsername = (event) => {
         setUsername(event.target.value);
     }
@@ -23,10 +27,13 @@ const LoginForm = () =>{
         const user = {username, password };
         
         try {
-            const res = await axios.post("http://localhost:5000/api/validate", user);
+            const res = await axios.post("http://localhost:5000/api/login", user);
             // need to handle error checking here
             if(res.status === 200){
+                setAuth(true)
+                localStorage.setItem("token", res.token)
                 navigate("/logged")
+                
             }
             else{
                 navigate("/register");
@@ -99,4 +106,5 @@ const LoginForm = () =>{
     )
 }
 
+export {isAuthenticated, setAuth};
 export default LoginForm;

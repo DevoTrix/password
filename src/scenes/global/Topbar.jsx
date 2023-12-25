@@ -9,6 +9,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import {useLocation} from "react-router-dom"
 import {useNavigate } from "react-router-dom";
+import {isAuthenticated, setAuth} from "../login/Login";
 const Topbar = () =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -17,9 +18,10 @@ const Topbar = () =>{
     const navigate = useNavigate();
     const handleLog = () =>{
         if(location.pathname === "/" || location.pathname === "/login"){
-            navigate("/login")
+            navigate("/login");
         }else{
-            navigate("/")
+            setAuth(false);
+            navigate("/");
         }
     }
     return (

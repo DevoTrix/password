@@ -5,6 +5,7 @@ import LoginForm from "./scenes/login/Login"
 import RegisterForm from "./scenes/login/Register";
 import Pass from "./scenes/loggedInPages/pass"
 import {Routes, Route} from "react-router-dom"
+// import { isAuthenticated } from "./scenes/login/Login";
 function App() {
     const [theme, colorMode] = useMode();
     return (
@@ -14,11 +15,12 @@ function App() {
                 <div className="app">
                     <main className = "content">
                         <Topbar />
-                        <Routes>
-                            <Route path = "/login" element={<LoginForm />} />
-                            <Route path = "/register" element = {<RegisterForm /> } />
-                            <Route path = "/logged" element = {<Pass /> } />
-                        </Routes>
+                            <Routes>
+                                
+                                    <Route path = "/login" element={<LoginForm />} />
+                                    <Route path = "/register" element = {<RegisterForm /> } />
+                                    <Route path = "/logged" element = {<Pass /> } />
+                            </Routes>
                     </main>
                 </div>;
             </ThemeProvider>

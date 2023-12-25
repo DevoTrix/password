@@ -13,6 +13,7 @@ const RegisterForm = () =>{
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
     const handleUsername = (event) => {
         setUsername(event.target.value);
     }
@@ -29,6 +30,12 @@ const RegisterForm = () =>{
             const res = await axios.post("http://localhost:5000/api/users", user);
             // need to handle error checking here
             navigate('/login');
+            if(res.status===200){
+                navigate('/login')
+            }
+            else{
+                navigate('/');
+            }
         } catch (error) {
           if (error.response) {
             // The request was made and the server responded with a status code
