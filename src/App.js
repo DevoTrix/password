@@ -1,6 +1,7 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "./scenes/global/Topbar"
+import Home from "./scenes/home/home"
 import LoginForm from "./scenes/login/Login"
 import RegisterForm from "./scenes/login/Register";
 import Pass from "./scenes/loggedInPages/pass"
@@ -16,7 +17,8 @@ function App() {
                     <main className = "content">
                         <Topbar />
                             <Routes>
-                                
+                                    <Route path = "/" element= {<Home />} />
+                                    <Route path = "/home" element = {<Home />} />
                                     <Route path = "/login" element={<LoginForm />} />
                                     <Route path = "/register" element = {<RegisterForm /> } />
                                     <Route path = "/logged" element = {<Pass /> } />

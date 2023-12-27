@@ -9,7 +9,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import {useLocation} from "react-router-dom"
 import {useNavigate } from "react-router-dom";
-import {isAuthenticated, setAuth} from "../login/Login";
+import AddIcon from '@mui/icons-material/Add';
+import GitHubIcon from '@mui/icons-material/GitHub';
 const Topbar = () =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -17,10 +18,10 @@ const Topbar = () =>{
     const location = useLocation();
     const navigate = useNavigate();
     const handleLog = () =>{
-        if(location.pathname === "/" || location.pathname === "/login"){
+        if(location.pathname === "/" || location.pathname === "/home"){
             navigate("/login");
         }else{
-            setAuth(false);
+            localStorage.removeItem("token");
             navigate("/");
         }
     }
@@ -38,6 +39,13 @@ const Topbar = () =>{
             </Box>
 
             <Box display="flex">
+                <IconButton>
+                    {location.pathname === "/pass"  ? (
+                        <AddIcon />
+                    ) : (
+                        <GitHubIcon />
+                    )}
+                </IconButton>
                 <IconButton onClick = {colorMode.toggleColorMode}>
                     {theme.palette.mode === "dark" ? (
                 <DarkModeOutlinedIcon />
@@ -46,12 +54,13 @@ const Topbar = () =>{
                 )}
                 </IconButton>
                 <IconButton onClick= {handleLog}>
-                    {location.pathname === "/" ? (
+                    {location.pathname === "/" || location.pathname === "/home" ? (
                         <LoginIcon />
                     ) : (
                         <LogoutIcon />
                     )}
                 </IconButton>
+                
             </Box>
         </Box>
     );

@@ -2,8 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Currently TODO
+ 
+ Currently still needs to do all the encrypting for storing passwords. Bcrypt does not work as it needs to be decrypted
+
+
+
+
 # Before you start run:
- ```npm i @mui/material @emotion/react @emotion/styled @mui/x-data-grid @mui/icons-material react-router-dom@6 react-pro-sidebar formik yup @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/list mongoose axios```
+ ```npm i @mui/material @emotion/react @emotion/styled @mui/x-data-grid @mui/icons-material react-router-dom@6 react-pro-sidebar formik yup @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/list mongoose axios cors jsonwebtoken```
 
 ## Available Scripts
 
