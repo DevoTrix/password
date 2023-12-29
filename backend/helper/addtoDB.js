@@ -3,8 +3,8 @@ const User = require('../models/user')
 const Pass = require('../models/pass')
 const bcrypt = require('bcryptjs')
 async function addPass(user, site, email, username, password){
-    //do encryption of password that could be encrypted
-    const encrypted = ""
+    // TODO: do encryption of password that could be encrypted
+    const encrypted = "testing"
 
     const pass = new Pass({
         user: user,

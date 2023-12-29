@@ -32,23 +32,25 @@ const Pass = () =>{
     // check if the current token stored in local storage is valid...
     // else redirect to login
     const token = localStorage.getItem("token")
+    // console.log(token)
+    if(!token){
+        window.location.href = "/login"
+    }
     try{
         const res = axios.post("http://localhost:5000/api/validate", token);
         if(res.status !== 200){
-            navigate('/login');
-            window.location.reload();
+            // navigate('/login');
+            window.location.href = '/login';
         }
     } catch(error){
-        navigate('/login');
-        window.location.reload();
     }
 
-    try{
-        const res = axios.post("http://localhost:5000/api/getPass", token);
+    // try{
+    //     const res = axios.post("http://localhost:5000/api/getPass", token);
 
-    }catch(error){
-        console.log("error: {error}")
-    }
+    // }catch(error){
+    //     console.log("error: {error}")
+    // }
     return (
         <Box display = "flex" backgroundColor={colors.primary[400]} borderRadius="10px" width={"25%"} height={"30%"} marginLeft={"40%"} flexDirection="column">
             <Box>

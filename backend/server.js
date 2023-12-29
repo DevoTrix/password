@@ -30,19 +30,9 @@ app.post('/api/validate', async (req, res)=>{
 
 
 app.post('/api/login', async (req, res)=>{
-    const {username, password} = req.body;
-
     try{
-        const {status, user} = await validateUser(username, password);
-        if(!user){
-            const token = tokenify(user.id);
-            res.status(status).send({
-                token: token
-            })
-        }
-        else{
-            res.status(status);
-        }
+       await validateUser(req, res);
+        
     } catch (error){
         res.status(500);
     }

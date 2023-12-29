@@ -1,22 +1,17 @@
 import { Box, useTheme } from "@mui/material";
-import { useContext, useState } from "react";
-import { ColorModeContext, tokens } from "../../theme";
+import { useState } from "react";
+import {  tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-let isAuthenticated = false;
-let setAuth = (state) =>{
-    isAuthenticated=state;
-};
 const LoginForm = () =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
+    // const colorMode = useContext(ColorModeContext);
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    [isAuthenticated, setAuth] = useState(false);
     const handleUsername = (event) => {
         setUsername(event.target.value);
     }
@@ -30,9 +25,9 @@ const LoginForm = () =>{
             const res = await axios.post("http://localhost:5000/api/login", user);
             // need to handle error checking here
             if(res.status === 200){
-                setAuth(true)
-                localStorage.setItem("token", res.token)
-                navigate("/logged")
+                localStorage.setItem("token", res.data.token)
+                // navigate("/logged")
+                window.location.href = "/logged"
                 
             }
             else{
@@ -106,5 +101,4 @@ const LoginForm = () =>{
     )
 }
 
-export {isAuthenticated, setAuth};
 export default LoginForm;
