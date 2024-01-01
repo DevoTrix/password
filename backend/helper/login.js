@@ -28,7 +28,6 @@ async function verifyToken(req, res) {
         process.env.key,
         (err, decoded) => {
           if (err) {
-            console.log("unauthorized")
             return res.status(401).send({
               message: "Unauthorized!",
             });
