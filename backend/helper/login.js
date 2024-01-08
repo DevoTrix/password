@@ -24,7 +24,7 @@ async function verifyToken(req, res) {
         console.log("error no token");
         res.status(401).send({message:"Error No Token Provided"})
     }
-    await jwt.verify(token,
+    jwt.verify(token,
         process.env.key,
         (err, decoded) => {
           if (err) {
@@ -32,7 +32,7 @@ async function verifyToken(req, res) {
               message: "Unauthorized!",
             });
           }
-          return decoded.id;
+          return res.status(200).send({ id: decoded.id});
         });
 }
 
