@@ -4,33 +4,15 @@ import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { isAuthenticated } from "../login/Login";
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 
-const pass = (
-    username,
-    site,
-    password,
-) =>{
-    
-    return (
-    <Card>
-        <h1>Site: {site} </h1>
-        <h2>Username: {username}</h2>
-    </Card>
-    )
-}
 const Pass = () =>{
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
-    const navigate = useNavigate();
-    // if(!isAuthenticated || isAuthenticated === null){
-    //     navigate('/login')
-    // } )
-    
-    // check if the current token stored in local storage is valid...
-    // else redirect to login
+    // const navigate = useNavigate();
     const token = localStorage.getItem("token")
     // console.log(token)
     if(!token){
@@ -44,18 +26,20 @@ const Pass = () =>{
         }
     } catch(error){
     }
+    const events = [
+        {title: 'test', start: new Date()}
+    ]
 
-    // try{
-    //     const res = axios.post("http://localhost:5000/api/getPass", token);
-
-    // }catch(error){
-    //     console.log("error: {error}")
-    // }
     return (
         <Box display = "flex" backgroundColor={colors.primary[400]} borderRadius="10px" width={"25%"} height={"30%"} marginLeft={"40%"} flexDirection="column">
             <Box>
-                <h1>Hi</h1>  
-
+                <FullCalendar
+                    plugins={[dayGridPlugin]}
+                    initialView= 'dayGridMonth'
+                    weekends={false}
+                    events={events}
+                    eventContent={renderEventContent}
+                />
             </Box>
         </Box>
         
