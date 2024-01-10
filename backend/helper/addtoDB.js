@@ -26,7 +26,6 @@ async function registerUser(email, username, password){
         return {status:200, user:savedUser};
     }
     if(usr1){
-
         return {status:400, user:usr1}
     }
 }

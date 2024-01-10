@@ -44,25 +44,24 @@ function tokenify(userID){
       allowInsecureKeySizes: true,
       expiresIn: 7200, // 24 hours
     });
-    return token;
-  }
+  return token;
+}
 
-  async function validateUser( req, res){
-      const {username, password} = req.body;
-      const user = await User.findOne({username: username});
-      if(!user){
-          res.status(401).send({message:"User Not Found"})
-      }
-      const result = bcrypt.compareSync(password, user.password)
-      if(result){
-          const token = tokenify(user.id);
-          console.log(token)
-          res.status(200).send({token: token})
-      }
-      else{
-          res.status(401).send({message:"incorrect Password"})
-      }
+async function validateUser( req, res){
+    const {username, password} = req.body;
+    const user = await User.findOne({username: username});
+    if(!user){
+        res.status(401).send({message:"User Not Found"})
+    }
+    const result = bcrypt.compareSync(password, user.password)
+    if(result){
+        const token = tokenify(user.id);
+        console.log(token)
+        res.status(200).send({token: token})
+    }
+    else{
+        res.status(401).send({message:"incorrect Password"})
+    }
+}
   
-  }
-  
-  module.exports = {validateUser, getId, verifyToken, tokenify}
+module.exports = {validateUser, getId, verifyToken, tokenify}
