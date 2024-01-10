@@ -32,7 +32,14 @@ export async function markEventAsCompleted(userID, title){
     if(!user){
         return false;
     }
-    const event = await Event.findOne({user:user._id, title:title})
+    try {
+        await Event.updateOne({user: user._id, title: title}, {
+            completed: true
+        });
+        return true;
+    } catch(error){
+        return false;
+    }
     //update the mongodb complete tab here to true
 }
 
@@ -41,7 +48,14 @@ export async function markEventAsIncomplete(userID, title){
     if(!user){
         return false;
     }
-    const event = await Event.findOne({user:user._id, title:title})
+    try {
+        await Event.updateOne({user: user._id, title: title}, {
+            completed: false
+        });
+        return true;
+    } catch (error){
+        return false;
+    }
     //update the mongodb complete tab here to false
 }
 
@@ -50,7 +64,14 @@ export async function changeTitle(userID, title, newTitle){
     if(!user){
         return false;
     }
-    const event = await Event.findOne({user:user._id, title:title})
+    try {
+        await Event.updateOne({user: user._id, title: title}, {
+            title: newTitle
+        });
+        return true;
+    } catch (error){
+        return false;
+    }
 }
 
 export async function updateDescription(userID, title, description){
@@ -58,7 +79,14 @@ export async function updateDescription(userID, title, description){
     if(!user){
         return false;
     }
-    const event = await Event.findOne({user:user._id, title:title})
+    try {
+        await Event.updateOne({user: user._id, title: title},{
+            description: description
+        });
+        return true;
+    } catch (error){
+        return false;
+    }
 }
 
 export async function changeDate( userID, title, date){
@@ -66,7 +94,13 @@ export async function changeDate( userID, title, date){
     if(!user){
         return false;
     }
-    const event = await Event.findOne({user:user._id, title:title})
+    try {
+        await Event.updateOne({user: user._id, title: title},{
+            date: date
+        });
+    } catch (error){
+        return false;
+    }
 }
 
 
