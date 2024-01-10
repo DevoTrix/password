@@ -20,6 +20,11 @@ const eventSchema = new Schema({
         type: Date,
         required: true,
         default: new Date()
+    },
+    completed:{
+        type: boolean,
+        required: true,
+        default: false
     }
 })
 const Event = mongoose.model('event',eventSchema);

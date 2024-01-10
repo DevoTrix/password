@@ -1,29 +1,27 @@
 require('dotenv').config();
-// var jwt = require("jsonwebtoken"); 
-// const User = require('./models/user');
-// const Pass = require('./models/pass');
-const {addPass, registerUser } = require('./helper/addtoDB');
+// imports
+const { registerUser } = require('./helper/addtoDB');
 const {validateUser, getId, verifyToken, tokenify} = require('./helper/login');
-const {getAllPass, revealPass} = require('./helper/gettingPass');
+const {getUserEvent, getAllEvents, getSpecificEvent,markEventAsCompleted, markEventAsIncomplete, changeTitle, updateDescription, changeData} =require('./helper/getEvents')
 const express = require("express");
 const cors = require('cors');
 const mongoose = require("mongoose");
-const app = express();
 const bodyParser = require('body-parser');
-app.use(cors());
-const db = process.env.DBURL;
 // const bcrypt = require("bcryptjs");
 const { ref } = require('yup');
-mongoose.connect(db);
+//end of imports
+//setting up apps
+const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// mongodb connect
+const db = process.env.DBURL;
+mongoose.connect(db);
 
-
-
-
-
-
+//beginning of posts
+//logging in portions
 app.post('/api/validate', async (req, res)=>{
     const id = await verifyToken(req,res);
 })
@@ -38,20 +36,9 @@ app.post('/api/login', async (req, res)=>{
     }
 });
 
-app.post('/api/addPass', async (req,res) => {
-    const {token, site, email, username, password} = req.body;
-    const user = getId(token);
-    if(!user){
-        res.status(400).send({message: "Invalid token"})
-    }
-    else{
-        addPass(user._id, site, email, username, password);
-        res.status(200).send({message: "success"})
-    }
-})
+//end of logging in
 
-
-
+//registering a new user
 app.post('/api/users', async (req, res) => {
     const {email, username, password} = req.body;
     // const test = registerUser(email, username, password
@@ -67,39 +54,28 @@ app.post('/api/users', async (req, res) => {
     }
 })
 
+//end of registering
 
-app.post('/api/getPass', async (req, res) =>{
+
+//beginning of  events
+app.post('/api/getEvents', async (req, res)=>{
     const {token} = req.body;
-
-    //handle shit here
     const userId = getId(token);
     if(!userId){
-        res.status(400).send({message:"Invalid Token"})
-        return;
+        res.status(401).send({message: "invalid token"})
     }
-    const allPass = getAllPass(userId);
-    if(allPass){
-        res.status(200).json(allPass);
-        return;
+    const events = getUserEvent(userId);
+    if(!events){
+        res.status(401).send({message: 'user has no events or user not found'})
     }
-    res.status(400).send({message: "No password Detected"})
-})
+    res.status(200).json(events);
+});
 
-app.post('/api/revealPass', async (req,res)=>{
-    const {token, site, username} = req.body;
-    const userId = getId(token);
-    if(!userId){
-        res.status(400).send({message:"Invalid Token"})
-        return;
-    }
-    const pass = revealPass(userId, username, site);
-    if(!pass){
-        res.status(400).send({message:"Password/ site not found"})
-        return;
-    }
-    res.status(200).json(pass);
-})
+//end of events
 
+// end of posts
+
+//final
 app.listen(5000, ()=>{
     console.log("Server Running on http://localhost:5000")
 })
