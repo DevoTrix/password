@@ -7,12 +7,12 @@ const eventSchema = new Schema({
         ref: 'User'
     },
     title: {
-        type: string,
+        type: String,
         required: true,
         default: "Event"
     },
     description:{
-        type: string,
+        type: String,
         required: false,
         default: "Enter Descritpion"
     },
@@ -22,7 +22,7 @@ const eventSchema = new Schema({
         default: new Date()
     },
     completed:{
-        type: boolean,
+        type: Boolean,
         required: true,
         default: false
     }

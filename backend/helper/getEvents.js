@@ -1,7 +1,7 @@
 const User = require('../models/user')
 const Event = require('../models/event')
 
-export async function getUserEvent(userID){
+async function getUserEvent(userID){
     const user = await User.find({_id: userID})
     if (!user) {
         return null;
@@ -13,12 +13,12 @@ export async function getUserEvent(userID){
     return events;
 }
 
-export async function getAllEvents(){
+async function getAllEvents(){
     const events = await Event.find();
     return events;
 }
 
-export async function getSpecificEvent(userID, title){
+async function getSpecificEvent(userID, title){
     const user = await User.find({userID})
     if(!user){
         return null;
@@ -27,7 +27,7 @@ export async function getSpecificEvent(userID, title){
     return events;
 }
 
-export async function markEventAsCompleted(userID, title){
+async function markEventAsCompleted(userID, title){
     const user = await User.find({userID});
     if(!user){
         return false;
@@ -43,7 +43,7 @@ export async function markEventAsCompleted(userID, title){
     //update the mongodb complete tab here to true
 }
 
-export async function markEventAsIncomplete(userID, title){
+async function markEventAsIncomplete(userID, title){
     const user = await User.find({userID});
     if(!user){
         return false;
@@ -59,7 +59,7 @@ export async function markEventAsIncomplete(userID, title){
     //update the mongodb complete tab here to false
 }
 
-export async function changeTitle(userID, title, newTitle){
+async function changeTitle(userID, title, newTitle){
     const user = await User.find({userID});
     if(!user){
         return false;
@@ -74,7 +74,7 @@ export async function changeTitle(userID, title, newTitle){
     }
 }
 
-export async function updateDescription(userID, title, description){
+async function updateDescription(userID, title, description){
     const user = await User.find({userID});
     if(!user){
         return false;
@@ -89,7 +89,7 @@ export async function updateDescription(userID, title, description){
     }
 }
 
-export async function changeDate( userID, title, date){
+async function changeDate( userID, title, date){
     const user = await User.find({userID});
     if(!user){
         return false;
@@ -103,4 +103,4 @@ export async function changeDate( userID, title, date){
     }
 }
 
-
+module.exports =  {getUserEvent, getAllEvents, getSpecificEvent,markEventAsCompleted,markEventAsIncomplete, changeTitle,updateDescription, changeDate};

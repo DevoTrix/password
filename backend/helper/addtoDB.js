@@ -30,4 +30,4 @@ async function registerUser(email, username, password){
     }
 }
 
-module.exports = {addPass, registerUser}
+module.exports =  {registerUser}
