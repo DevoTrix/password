@@ -33,13 +33,13 @@ const Pass = () =>{
     return (
         <Box display = "flex" backgroundColor={colors.primary[400]} borderRadius="10px" width={"90%"} height={"90%"} marginLeft={"10%"}>
             <Box backgroundColor={colors.primary[300]} width={"40%"} height = {"80%"} >
-                <FullCalendar
-                    plugins={[dayGridPlugin]}
-                    initialView= 'dayGridMonth'
-                    weekends={false}
-                    events={events}
-                    eventContent={}
-                />
+                {/*<FullCalendar*/}
+                {/*    plugins={[dayGridPlugin]}*/}
+                {/*    initialView= 'dayGridMonth'*/}
+                {/*    weekends={false}*/}
+                {/*    events={events}*/}
+                {/*    eventContent={}*/}
+                {/*/>*/}
             </Box>
 
         </Box>
