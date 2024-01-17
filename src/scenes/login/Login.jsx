@@ -26,9 +26,7 @@ const LoginForm = () =>{
             // need to handle error checking here
             if(res.status === 200){
                 localStorage.setItem("token", res.data.token)
-                // navigate("/logged")
                 window.location.href = "/logged"
-                
             }
             else{
                 navigate("/register");
@@ -66,7 +64,7 @@ const LoginForm = () =>{
                 height={"10%"}
                 marginLeft={"20px"}
             >
-                <InputBase sx = {{ ml: 2, flex: 2}} placeholder = "Username" onChange={handleUsername}></InputBase>
+                <InputBase sx = {{ ml: 2, flex: 2, width:'90%', height:'20%'}} placeholder = "Username" onChange={handleUsername}></InputBase>
                 
             </Box>
             <Box margin={"20px"}>
@@ -79,11 +77,12 @@ const LoginForm = () =>{
                 height={"10%"}
                 marginLeft={"20px"}
             >
-                <InputBase sx = {{ ml: 2, flex: 2}} placeholder = "Password" type = "password" onChange={handlePassword}></InputBase>
+                <InputBase sx = {{ ml: 2, flex: 2, width:'90%', height:'20%'}} placeholder = "Password" type = "password" onChange={handlePassword}></InputBase>
             </Box>
 
             <Box 
                 display="flex"
+                justifyContent="space-between"
                 p= {2}
             >
                 <Box display = "flex">
@@ -91,7 +90,7 @@ const LoginForm = () =>{
                     
 
                 </Box>
-                <Box display = "flex" marginLeft = "75%">
+                <Box display = "flex">
                     <button onClick={()=>navigate("/register")}>Register</button>
                 </Box>
                 

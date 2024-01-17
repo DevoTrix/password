@@ -18,9 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// mongodb connect
-const db = process.env.DBURL;
-mongoose.connect(db);
+
 
 //beginning of posts
 //logging in portions
@@ -176,5 +174,8 @@ app.post('/api/changeDate', async (req, res)=>{
 
 //final
 app.listen(5000, ()=>{
+    // mongodb connect
+    const db = process.env.DBURL;
+    mongoose.connect(db);
     console.log("Server Running on http://localhost:5000")
 })

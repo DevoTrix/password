@@ -25,6 +25,13 @@ const Topbar = () =>{
             navigate("/");
         }
     }
+    const handleGit = () =>{
+        if(location.pathname === '/' || location.pathname === '/home'){
+            window.open("https://github.com/DevoTrix")
+        } else{
+
+        }
+    }
     return (
         <Box display = "flex" justifyContent = "space-between" p = {2}>
             <Box 
@@ -35,7 +42,7 @@ const Topbar = () =>{
             </Box>
 
             <Box display="flex">
-                <IconButton>
+                <IconButton onClick={handleGit}>
                     {location.pathname === "/pass"  ? (
                         <AddIcon />
                     ) : (

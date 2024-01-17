@@ -56,12 +56,12 @@ async function validateUser( req, res){
     const result = bcrypt.compareSync(password, user.password)
     if(result){
         const token = tokenify(user.id);
-        console.log(token)
+        // console.log(token)
         res.status(200).send({token: token})
     }
     else{
         res.status(401).send({message:"incorrect Password"})
     }
 }
-  
+
 module.exports = {validateUser, getId, verifyToken, tokenify}
