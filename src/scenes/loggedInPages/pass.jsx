@@ -4,7 +4,7 @@ import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import FullCalendar from '@fullcalendar/react';
+// import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
 

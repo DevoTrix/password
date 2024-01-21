@@ -58,7 +58,7 @@ const RegisterForm = () =>{
         }
       };
     return (
-        <Box display = "flex" backgroundColor={colors.primary[400]} borderRadius="10px" width={"25%"} height={"35%"} marginLeft={"40%"} flexDirection="column">
+        <Box display = "flex" backgroundColor={colors.primary[400]} borderRadius="10px" width={"25%"} position={"fixed"} height={"34%"} marginLeft={"40%"} marginTop={"80px"} flexDirection="column">
             <Box margin={"20px"}>
                 <label>Email</label>
             </Box>
@@ -69,7 +69,7 @@ const RegisterForm = () =>{
                 height={"10%"}
                 marginLeft={"20px"}
             >
-                <InputBase sx = {{ ml: 2, flex: 2}} placeholder = "Email" onChange={handleEmail}></InputBase>
+                <InputBase sx = {{ ml: 2, mt:2, flex: 2, width:'90%', height:'15%'}} placeholder = "Email" onChange={handleEmail}></InputBase>
                 
             </Box>
             <Box margin={"20px"}>
@@ -82,7 +82,7 @@ const RegisterForm = () =>{
                 height={"10%"}
                 marginLeft={"20px"}
             >
-                <InputBase sx = {{ ml: 2, flex: 2}} placeholder = "Username" onChange={handleUsername}></InputBase>
+                <InputBase sx = {{ ml: 2, mt:2, flex: 2, width:'90%', height:'20%'}} placeholder = "Username" onChange={handleUsername}></InputBase>
                 
             </Box>
             <Box margin={"20px"}>
@@ -95,7 +95,7 @@ const RegisterForm = () =>{
                 height={"10%"}
                 marginLeft={"20px"}
             >
-                <InputBase sx = {{ ml: 2, flex: 2}} placeholder = "Password" onChange = {handlePassword} type = "password"></InputBase>
+                <InputBase sx = {{ ml: 2, mt:2, flex: 2, width:'90%', height:'20%'}} placeholder = "Password" onChange = {handlePassword} type = "password"></InputBase>
             </Box>
             <Box 
                 margin="20px"

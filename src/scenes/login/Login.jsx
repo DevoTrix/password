@@ -53,7 +53,7 @@ const LoginForm = () =>{
         }
     }
     return (
-        <Box display = "flex" backgroundColor={colors.primary[400]} borderRadius="10px" width={"25%"} height={"30%"} marginLeft={"40%"} flexDirection="column">
+        <Box display = "flex" backgroundColor={colors.primary[400]} position={"fixed"} borderRadius="10px" width={"25%"} height={"30%"} marginLeft={"40%"} marginTop={"100px"} flexDirection="column">
             <Box margin={"20px"}>
                 <label>UserName</label>
             </Box>

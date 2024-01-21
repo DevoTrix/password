@@ -21,10 +21,10 @@ function App() {
                                     <Route path = "/home" element = {<Home />} />
                                     <Route path = "/login" element={<LoginForm />} />
                                     <Route path = "/register" element = {<RegisterForm /> } />
-                                    <Route path = "/logged" element = {<Pass /> } />
+                                    {/* <Route path = "/logged" element = {<Pass /> } /> */}
                             </Routes>
                     </main>
-                </div>;
+                </div>
             </ThemeProvider>
         </ColorModeContext.Provider>
     )

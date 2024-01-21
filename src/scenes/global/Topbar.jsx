@@ -33,7 +33,7 @@ const Topbar = () =>{
         }
     }
     return (
-        <Box display = "flex" justifyContent = "space-between" p = {2}>
+        <Box display = "flex" justifyContent = "space-between" p = {2} position={"fixed"} backgroundColor = {colors.primary[600]} width="100%">
             <Box 
                 display="flex"
                 backgroundColor={colors.primary[400]}
