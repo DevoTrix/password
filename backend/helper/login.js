@@ -21,7 +21,7 @@ async function verifyToken(req, res) {
     const token = req.body;
     if(!token){
         console.log("error no token");
-        res.status(401).send({message:"Error No Token Provided"})
+        res.status(403).send({message:"Error No Token Provided"})
     }
     jwt.verify(token,
         process.env.key,
@@ -51,9 +51,13 @@ async function validateUser( req, res){
     const {username, password} = req.body;
     const user = await User.findOne({username: username});
     if(!user){
-        res.status(401).send({message:"User Not Found"})
+        res.status(402).send({message:"User Not Found"})
     }
-    const result = bcrypt.compareSync(password, user.password)
+    let result = false;
+    bcrypt.compare(password,user.password, function(error, response) {
+      result = response;
+    })
+    // const result = bcrypt.compareSync(password, user.password)
     if(result){
         const token = tokenify(user.id);
         // console.log(token)

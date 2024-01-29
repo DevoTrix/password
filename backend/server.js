@@ -1,10 +1,19 @@
 require('dotenv').config();
 // imports
-const { registerUser } = require('./helper/addtoDB');
-const {validateUser, getId, verifyToken, tokenify} = require('./helper/login');
-const {getUserEvent, getAllEvents, getSpecificEvent,markEventAsCompleted, markEventAsIncomplete, changeTitle, updateDescription,
-    changeDate
-} =require('./helper/getEvents')
+// const { registerUser } = require('./helper/addtoDB');
+// const {validateUser, getId, verifyToken, tokenify} = require('./helper/login');
+// const {getUserEvent, getAllEvents, getSpecificEvent,markEventAsCompleted, markEventAsIncomplete, changeTitle, updateDescription,
+    // changeDate
+// } =require('./helper/getEvents')
+
+
+const {getID, tokenify } = require('./helper/rewrite/tokenization');
+const {createTable, registerUser, addEvent} = require('./helper/rewrite/add');
+const {verifyPass,userEvents, specificEvent} = require('./helper/rewrite/pull');
+const {updateUser, updateEventTitle, updateEventDescription, markEventComplete, 
+    markEventIncomplete, updateEventDate} = require('./helper/rewrite/update');
+
+
 const express = require("express");
 const cors = require('cors');
 const mongoose = require("mongoose");
@@ -18,22 +27,41 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var mysql = require('mysql2');
 
 
 //beginning of posts
 //logging in portions
 app.post('/api/validate', async (req, res)=>{
-    await verifyToken(req,res);
+    const token = req.body;
+    const id = await getID(token);
+    if(!id){
+        res.status(401).send({message: 'Invalid Token'});
+        return;
+    }
+    res.status(200).send({user: id});
 })
 
 
 app.post('/api/login', async (req, res)=>{
-    try{
-       await validateUser(req, res);
-        
-    } catch (error){
-        res.status(500);
+    const {username, password} = req.body;
+    var pool = mysql.createPool({
+        connectionLimit: 10,
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "Buddy-71597",
+        database: "DVTrix"
+    });
+
+    const verified = await verifyPass(pool, username, password);
+    if(!verified){
+        pool.releaseConnection();
+        res.status(400).send({message:"invalid Password"});
+        return;
     }
+    pool.releaseConnection();
+    res.status(200).send();
 });
 
 //end of logging in
@@ -41,17 +69,20 @@ app.post('/api/login', async (req, res)=>{
 //registering a new user
 app.post('/api/users', async (req, res) => {
     const {email, username, password} = req.body;
-    // const test = registerUser(email, username, password
-    // console.log(email + password + username)
-    try{
-        const {status, user} = await registerUser(email,username, password);
-        // const test = new User({ email:email, username:username, password:password})
-        // console.log(email + password + username)
-        // await test.save();
-        res.status(status).json(user);
-    } catch(error){
-        res.status(500).json({ error: error.message });
-    }
+
+    var pool = mysql.createPool({
+        connectionLimit: 10,
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "Buddy-71597",
+        database: "DVTrix"
+    });
+
+    await registerUser(pool, email, username, password);
+    pool.releaseConnection();
+    res.status(200).send();
+    
 })
 
 //end of registering
@@ -65,7 +96,17 @@ app.post('/api/getEvents', async (req, res)=>{
         res.status(401).send({message: "invalid token"})
         return;
     }
-    const events = getUserEvent(userId);
+    var pool = mysql.createPool({
+        connectionLimit: 10,
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "Buddy-71597",
+        database: "DVTrix"
+    });
+
+    const events = userEvents(pool, userId);
+    pool.releaseConnection();
     if(!events){
         res.status(401).send({message: 'user has no events or user not found'})
         return;
@@ -80,7 +121,16 @@ app.post('/api/getSpecificEvent', async (req, res)=>{
         res.status(401).send({message: "invalid token"})
         return;
     }
-    const event = getSpecificEvent(userId, title);
+    var pool = mysql.createPool({
+        connectionLimit: 10,
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "Buddy-71597",
+        database: "DVTrix"
+    });
+    const event = specificEvent(pool, userId, title);
+    pool.releaseConnection();
     if(!event){
         res.status(400).send({message: "no event found"});
         return;
