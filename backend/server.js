@@ -114,7 +114,7 @@ app.post('/api/getEvents', async (req, res)=>{
 });
 
 app.post('/api/getSpecificEvent', async (req, res)=>{
-    const{token, title} = req.body;
+    const{token, title, uniqueId} = req.body;
     const userId = getId(token);
     if(!userId){
         res.status(401).send({message: "invalid token"})
@@ -128,7 +128,7 @@ app.post('/api/getSpecificEvent', async (req, res)=>{
         password: "Buddy-71597",
         database: "DVTrix"
     });
-    const event = specificEvent(pool, userId, title);
+    const event = specificEvent(pool, userId, title, uniqueId);
     pool.releaseConnection();
     if(!event){
         res.status(400).send({message: "no event found"});
@@ -168,7 +168,7 @@ app.post('/api/updateTitle', async (req, res)=>{
 })
 
 app.post('/api/completed', async (req, res) =>{
-    const {token, title} = req.body;
+    const {token, title, startDate} = req.body;
     var pool = mysql.createConnection({
         connectionLimit: 10,
         host: "localhost",
@@ -184,7 +184,7 @@ app.post('/api/completed', async (req, res) =>{
         return;
     }
 
-    const updated = await markEventComplete(pool, userId, title);
+    const updated = await markEventComplete(pool, userId, title, startDate);
     pool.releaseConnection();
     if(!updated){
         res.status(400).send({message: "Event not marked completed"});
@@ -194,7 +194,7 @@ app.post('/api/completed', async (req, res) =>{
 })
 
 app.post('/api/incompleted', async (req, res)=>{
-    const {token, title} = req.body;
+    const {token, title, startDate} = req.body;
     var pool = mysql.createConnection({
         connectionLimit: 10,
         host: "localhost",
@@ -210,7 +210,7 @@ app.post('/api/incompleted', async (req, res)=>{
         return;
     }
 
-    const updated = await markEventIncomplete(pool,userId, title);
+    const updated = await markEventIncomplete(pool,userId, title, startDate);
     pool.releaseConnection();
     if(!updated){
         res.status(400).send({message: "Event not marked incomplete"});
@@ -245,8 +245,10 @@ app.post('/api/updateDescription', async(req,res)=>{
     res.status(200);
 })
 
+
+//NOTE work on this
 app.post('/api/changeDate', async (req, res)=>{
-    const {token, title, date} = req.body;
+    const {token, title, oldStartDate, newStartDate, newEndDate } = req.body;
     const userId = getId(token);
     var pool = mysql.createConnection({
         connectionLimit: 10,
@@ -256,13 +258,12 @@ app.post('/api/changeDate', async (req, res)=>{
         password: "Buddy-71597",
         database: "DVTrix"
     });
-
+    
     if(!userId){
         res.status(401).send({message: "invalid token"});
         return;
     }
-
-    const updated = await updateEventDate(pool,userId, title, date);
+    const updated = await updateEventDate(pool, userId, title, oldStartDate, newStartDate, newEndDate);
     pool.releaseConnection()
     if(!updated){
         res.status(400).send({message: "date not updated"});
